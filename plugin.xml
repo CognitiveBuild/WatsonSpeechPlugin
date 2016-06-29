@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    id="WatsonSpeechPlugin"
+    version="1.0.0">
+    <name>Watson Speech Plugin</name>
+    <description>Watson Speech Cordova Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>Watson, Speech, STT, TTS</keywords>
+    <repo></repo>
+    <issue></issue>
+
+    <!-- android -->
+    <platform name="android">
+        <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+
+        <resource-file src="frameworks/speech-android-wrapper-debug.aar" target="cordova-plugin-watson-speech/speech-android-wrapper-debug.aar" />
+        <resource-file src="frameworks/speech-android-wrapper-release.aar" target="cordova-plugin-watson-speech/speech-android-wrapper-release.aar" />
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Stt">
+              <param name="android-package" value="com.ibm.cio.plugins.Stt" />
+              <param name="onload" value="true" />
+            </feature>
+            <feature name="Tts">
+              <param name="android-package" value="com.ibm.cio.plugins.Tts" />
+              <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/Stt.java" target-dir="src/com/ibm/cio/plugins" />
+        <source-file src="src/android/Tts.java" target-dir="src/com/ibm/cio/plugins" />
+    </platform>
+
+    <!-- ios -->
+    <platform name="ios">
+        <framework src="frameworks/watsonsdk.framework" custom="true" type="projectReference" />
+        <framework src="libicucore.tbd" />
+        <config-file target="config.xml" parent="/*">
+            <feature name="Stt">
+                <param name="ios-package" value="Stt" onload="true" />
+            </feature>
+            <feature name="Tts">
+                <param name="ios-package" value="Tts" onload="true" />
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/Stt.h" />
+        <source-file src="src/ios/Stt.m" />
+        <header-file src="src/ios/Tts.h" />
+        <source-file src="src/ios/Tts.m" />
+    </platform>
+</plugin>

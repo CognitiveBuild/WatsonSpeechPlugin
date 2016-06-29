@@ -1,0 +1,10 @@
+repositories{
+  flatDir{
+    dirs 'cordova-plugin-watson-speech'
+  }
+}
+
+dependencies {
+  debugCompile(name:'speech-android-wrapper-debug', ext:'aar')
+  releaseCompile(name:'speech-android-wrapper-release', ext:'aar')
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Watson Speech Plugin",
+  "version": "1.0.0",
+  "cordova": {
+    "id": "WatsonSpeechPlugin",
+    "platforms": [
+      "android",
+      "ios",
+    ]
+  },
+  "description": "Watson Speech Cordova Plugin",
+  "repository": "",
+  "issue": "",
+  "keywords": [
+    "watson",
+    "cordova"
+  ],
+  "author": "mihui",
+  "license": "Apache 2.0"
+}
