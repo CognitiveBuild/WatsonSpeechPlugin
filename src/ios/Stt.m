@@ -46,15 +46,19 @@ NSString *recognitionCallbackId = nil;
  *  @param message  Transcription
  *  @param isEnding If the message is final transcription
  */
-- (void) send:(NSString*) message isEnding: (BOOL) isEnding{
-    NSLog(@"Message-> %@", message);
+- (void) send:(NSDictionary*) res{
+    SpeechToTextResult *sttResult = [[self sttInstance] getResult:res];
+    NSString *transcript = ([sttResult transcript] == nil ? @"" : [sttResult transcript]);
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:2];
-    [dict setObject:message forKey:@"message"];
-    [dict setObject:isEnding ? @"Yes": @"No" forKey:@"isfinal"];
+    [dict setObject:transcript forKey:@"message"];
+    [dict setObject:[sttResult isFinal] ? @"Yes": @"No" forKey:@"isfinal"];
+    [dict setObject:[sttResult isCompleted] ? @"Yes": @"No" forKey:@"iscompleted"];
+
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary: dict];
     [result setKeepCallback:[NSNumber numberWithBool:YES]];
     [[self commandDelegate] sendPluginResult:result callbackId: recognitionCallbackId];
 }
+
 
 /**
  *  Start speech recognition
@@ -73,31 +77,15 @@ NSString *recognitionCallbackId = nil;
 - (void) _recognize:(CDVInvokedUrlCommand*) command{
     recognitionCallbackId = [command callbackId];
     [[self sttInstance] recognize:^(NSDictionary* res, NSError* err){
-        if(err == nil && res == nil) {
-            [[self sttInstance] stopRecordingAudio];
-            [[self sttInstance] endConnection];
-            // todo: send back information to JavaScript
-            [self.commandDelegate runInBackground:^{
-                [self send:@"" isEnding:YES];
-            }];
-            return;
-        }
-
-        if(err == nil) {
-            BOOL isEnding = [[self sttInstance] isFinalTranscript:res];
-            // automatically stop
-            if(isEnding) {
-                [[self sttInstance] endRecognize];
-            }
-            [self.commandDelegate runInBackground:^{
-                [self send:[[self sttInstance] getTranscript:res] isEnding:isEnding];
-            }];
-        }
-        else {
+        if(err) {
             [[self sttInstance] endRecognize];
             CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[err localizedDescription]];
             [[self commandDelegate] sendPluginResult:result callbackId:recognitionCallbackId];
+            return;
         }
+        [self.commandDelegate runInBackground:^{
+            [self send:res];
+        }];
     }];
 }
 

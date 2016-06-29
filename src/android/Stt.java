@@ -2,7 +2,6 @@ package com.ibm.cio.plugins;
 
 import android.util.Log;
 
-import com.ibm.cio.be.gomww.R;
 import com.ibm.watson.developer_cloud.android.speech_to_text.v1.ISpeechToTextDelegate;
 import com.ibm.watson.developer_cloud.android.speech_to_text.v1.SpeechToText;
 import com.ibm.watson.developer_cloud.android.speech_to_text.v1.dto.STTConfiguration;
@@ -78,8 +77,8 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
     private boolean initSTT() {
         STTConfiguration sConfig = new STTConfiguration(STTConfiguration.AUDIO_FORMAT_OGGOPUS);
         // DISCLAIMER: please enter your credentials or token factory in the lines below
-        sConfig.basicAuthUsername = this.cordova.getActivity().getString(R.string.STTUsername);
-        sConfig.basicAuthPassword = this.cordova.getActivity().getString(R.string.STTPassword);
+        sConfig.basicAuthUsername = this.cordova.getActivity().getString("<your-username>");
+        sConfig.basicAuthPassword = this.cordova.getActivity().getString("<your-password>");
 
         SpeechToText.sharedInstance().initWithConfig(sConfig);
         SpeechToText.sharedInstance().setDelegate(this);
@@ -98,6 +97,9 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
     }
 
     @Override
+    public void onBegin() { }
+
+    @Override
     public void onError(String error) {
         sendStatus("onError: " + error);
         this.mState = ConnectionState.IDLE;
@@ -106,8 +108,22 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        sendStatus("onClose: connection closed: code: " + code + " reason: " + reason);
-        this.mState = ConnectionState.IDLE;
+        try {
+            sendStatus("onClose: connection closed: code: " + code + " reason: " + reason);
+            this.mState = ConnectionState.IDLE;
+            JSONObject finalResult = new JSONObject();
+
+            finalResult.put("iscomplete", "Yes");
+            finalResult.put("isfinal", "Yes");
+            finalResult.put("message", "");
+            PluginResult result = new PluginResult(PluginResult.Status.OK, finalResult);
+            result.setKeepCallback(true);
+            this.recognizeContext.sendPluginResult(result);
+            SpeechToText.sharedInstance().disConnect();
+            SpeechToText.sharedInstance().stopRecording();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -128,6 +144,7 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
                     }
                     JSONObject finalResult = new JSONObject();
                     finalResult.put("isfinal", isFinal ? "Yes" : "No");
+                    finalResult.put("iscomplete", "No");
                     finalResult.put("message", str);
                     PluginResult result = new PluginResult(PluginResult.Status.OK, finalResult);
                     result.setKeepCallback(true);

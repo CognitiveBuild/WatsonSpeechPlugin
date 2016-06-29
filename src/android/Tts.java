@@ -2,7 +2,6 @@ package com.ibm.cio.plugins;
 
 import android.util.Log;
 
-import com.ibm.cio.be.gomww.R;
 import com.ibm.watson.developer_cloud.android.text_to_speech.v1.ITextToSpeechDelegate;
 import com.ibm.watson.developer_cloud.android.text_to_speech.v1.TextToSpeech;
 import com.ibm.watson.developer_cloud.android.text_to_speech.v1.dto.TTSConfiguration;
@@ -32,7 +31,10 @@ public class Tts extends CordovaPlugin implements ITextToSpeechDelegate {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if(action.equals("synthesize")){
             String ttsText = args.getString(0);
-            String customizationId = args.getString(1);
+            String customizationId = null;
+            if(args.length() >= 2) {
+                customizationId = args.getString(1);
+            }
             this.synthesizeContext = callbackContext;
             this.synthesize(ttsText, customizationId);
             return true;
@@ -94,6 +96,7 @@ public class Tts extends CordovaPlugin implements ITextToSpeechDelegate {
         tConfig.basicAuthPassword = this.cordova.getActivity().getString(R.string.TTSPassword);
         tConfig.codec = TTSConfiguration.CODEC_OPUS;
         tConfig.appContext = this.cordova.getActivity().getApplicationContext();
+        tConfig.voice = "en-US_AllisonVoice";
 
         TextToSpeech.sharedInstance().initWithConfig(tConfig);
         TextToSpeech.sharedInstance().setDelegate(this);
