@@ -7,8 +7,8 @@
     <description>Watson Speech Cordova Plugin</description>
     <license>Apache 2.0</license>
     <keywords>Watson, Speech, STT, TTS</keywords>
-    <repo></repo>
-    <issue></issue>
+    <repo>https://github.com/CognitiveBuild/WatsonSpeechPlugin.git</repo>
+    <issue>https://github.com/CognitiveBuild/WatsonSpeechPlugin/issues</issue>
 
     <!-- android -->
     <platform name="android">
@@ -36,6 +36,13 @@
     <platform name="ios">
         <framework src="frameworks/watsonsdk.framework" custom="true" type="projectReference" />
         <framework src="libicucore.tbd" />
+        <framework src="AudioToolbox.framework" />
+        <framework src="AVFoundation.framework" />
+        <framework src="CFNetwork.framework" />
+        <framework src="CoreAudio.framework" />
+        <framework src="Foundation.framework" />
+        <framework src="Quartzcore.framework" />
+        <framework src="Security.framework" />
         <config-file target="config.xml" parent="/*">
             <feature name="Stt">
                 <param name="ios-package" value="Stt" onload="true" />
