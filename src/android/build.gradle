@@ -1,6 +1,6 @@
 repositories{
   flatDir{
-    dirs 'cordova-plugin-watson-speech'
+    dirs 'WatsonSpeechPlugin'
   }
 }
 

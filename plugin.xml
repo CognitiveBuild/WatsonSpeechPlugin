@@ -10,12 +10,16 @@
     <repo>https://github.com/CognitiveBuild/WatsonSpeechPlugin.git</repo>
     <issue>https://github.com/CognitiveBuild/WatsonSpeechPlugin/issues</issue>
 
+    <js-module src="www/watson-sdk.js" name="WatsonSDK">
+        <clobbers target="window.WatsonSDK" />
+    </js-module>
+
     <!-- android -->
     <platform name="android">
         <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
 
-        <resource-file src="frameworks/speech-android-wrapper-debug.aar" target="cordova-plugin-watson-speech/speech-android-wrapper-debug.aar" />
-        <resource-file src="frameworks/speech-android-wrapper-release.aar" target="cordova-plugin-watson-speech/speech-android-wrapper-release.aar" />
+        <resource-file src="frameworks/speech-android-wrapper-debug.aar" target="WatsonSpeechPlugin/speech-android-wrapper-debug.aar" />
+        <resource-file src="frameworks/speech-android-wrapper-release.aar" target="WatsonSpeechPlugin/speech-android-wrapper-release.aar" />
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="Stt">
@@ -26,6 +30,13 @@
               <param name="android-package" value="com.ibm.cio.plugins.Tts" />
               <param name="onload" value="true" />
             </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.RECORD_AUDIO" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
         </config-file>
 
         <source-file src="src/android/Stt.java" target-dir="src/com/ibm/cio/plugins" />
@@ -43,6 +54,9 @@
         <framework src="Foundation.framework" />
         <framework src="Quartzcore.framework" />
         <framework src="Security.framework" />
+
+        <resource-file src="resources/Credentials.plist" target="cordova-plugin-watson-speech/Credentials.plist" />
+
         <config-file target="config.xml" parent="/*">
             <feature name="Stt">
                 <param name="ios-package" value="Stt" onload="true" />

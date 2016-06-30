@@ -75,10 +75,10 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
 
     // initialize the connection to the Watson STT service
     private boolean initSTT() {
-        STTConfiguration sConfig = new STTConfiguration(STTConfiguration.AUDIO_FORMAT_OGGOPUS);
+        STTConfiguration sConfig = new STTConfiguration(STTConfiguration.AUDIO_FORMAT_OGGOPUS, STTConfiguration.SAMPLE_RATE_DEFAULT);
         // DISCLAIMER: please enter your credentials or token factory in the lines below
-        sConfig.basicAuthUsername = this.cordova.getActivity().getString("<your-username>");
-        sConfig.basicAuthPassword = this.cordova.getActivity().getString("<your-password>");
+        sConfig.basicAuthUsername = "<your-username>";
+        sConfig.basicAuthPassword = "<your-password>";
 
         SpeechToText.sharedInstance().initWithConfig(sConfig);
         SpeechToText.sharedInstance().setDelegate(this);
@@ -113,7 +113,7 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
             this.mState = ConnectionState.IDLE;
             JSONObject finalResult = new JSONObject();
 
-            finalResult.put("iscomplete", "Yes");
+            finalResult.put("iscompleted", "Yes");
             finalResult.put("isfinal", "Yes");
             finalResult.put("message", "");
             PluginResult result = new PluginResult(PluginResult.Status.OK, finalResult);
@@ -140,7 +140,7 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
                     String str = alternativeList.getJSONObject(0).getString("transcript");
                     boolean isFinal = obj.getString("final").equals("true");
                     if (isFinal) {
-                        SpeechToText.sharedInstance().endRecognition();
+                        // SpeechToText.sharedInstance().endRecognition();
                     }
                     JSONObject finalResult = new JSONObject();
                     finalResult.put("isfinal", isFinal ? "Yes" : "No");

@@ -92,8 +92,8 @@ public class Tts extends CordovaPlugin implements ITextToSpeechDelegate {
         TTSConfiguration tConfig = new TTSConfiguration();
         // DISCLAIMER: please enter your credentials or token factory in the lines below
 
-        tConfig.basicAuthUsername = this.cordova.getActivity().getString(R.string.TTSUsername);
-        tConfig.basicAuthPassword = this.cordova.getActivity().getString(R.string.TTSPassword);
+        tConfig.basicAuthUsername = "<your-username>";
+        tConfig.basicAuthPassword = "<your-password>";
         tConfig.codec = TTSConfiguration.CODEC_OPUS;
         tConfig.appContext = this.cordova.getActivity().getApplicationContext();
         tConfig.voice = "en-US_AllisonVoice";
