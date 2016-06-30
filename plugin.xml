@@ -55,7 +55,7 @@
         <framework src="Quartzcore.framework" />
         <framework src="Security.framework" />
 
-        <resource-file src="resources/Credentials.plist" target="cordova-plugin-watson-speech/Credentials.plist" />
+        <resource-file src="resources/Credentials.plist" target="Resources/Credentials.plist" />
 
         <config-file target="config.xml" parent="/*">
             <feature name="Stt">
