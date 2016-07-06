@@ -1,6 +1,6 @@
 #Watson Speech SDK Plugin for iOS and Android
 [![Language: Objective-C](https://img.shields.io/badge/objective--c-2.0-orange.svg?style=flat)](https://en.wikipedia.org/wiki/Objective-C)
-[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/CognitiveBuild/ChameleonSwift/master/LICENSE)
+[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/CognitiveBuild/WatsonSpeechPlugin/master/LICENSE)
 
 #Installation
 
