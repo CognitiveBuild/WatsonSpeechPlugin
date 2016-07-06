@@ -1,7 +1,8 @@
 #Watson Speech SDK Plugin for iOS and Android
+[![Language: Objective-C](https://img.shields.io/badge/objective--c-2.0-orange.svg?style=flat)](https://en.wikipedia.org/wiki/Objective-C)
+[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/CognitiveBuild/ChameleonSwift/master/LICENSE)
 
 #Installation
--------------
 
 To install the Watson Speech Plugin in your Cordova Project, run in terminal:
 ```shell
@@ -9,12 +10,11 @@ cordova plugin add https://github.com/CognitiveBuild/WatsonSpeechPlugin.git
 ```
 
 #Credentials
-------------
+
 * iOS: Update your username/password of the Speech-to-Text and Text-to-Speech services in Credential.plist
 * Android: Update in Java code of the native Plugins
 
 #Basic JavaScript APIs
-----------------------
 
 ##Speech-to-Text
 ```javascript
@@ -57,7 +57,6 @@ WatsonSDK.TextToSpeech.synthesize(function(data){
 ```
 
 #Uninstall
-----------
 
 To uninstall the Watson Speech Plugin from your Corodva Project, run in terminal:
 ```shell
