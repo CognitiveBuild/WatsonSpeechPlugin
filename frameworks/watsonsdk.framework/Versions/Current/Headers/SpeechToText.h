@@ -18,8 +18,6 @@
 #import <AudioToolbox/AudioQueue.h>
 #import <AudioToolbox/AudioFile.h>
 #import "STTConfiguration.h"
-#import "WebSocketAudioStreamer.h"
-#import "OpusHelper.h"
 
 @interface SpeechToTextResult : NSObject
 
