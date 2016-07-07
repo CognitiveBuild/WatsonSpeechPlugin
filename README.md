@@ -1,5 +1,7 @@
 #Watson Speech SDK Plugin for iOS and Android
 [![Language: Objective-C](https://img.shields.io/badge/objective--c-2.0-orange.svg?style=flat)](https://en.wikipedia.org/wiki/Objective-C)
+[![Language: Java](https://img.shields.io/badge/java-android-orange.svg?style=flat)](http://java.com/)
+[![Language: JavaScript](https://img.shields.io/badge/javascript-es5.0-orange.svg?style=flat)](https://www.javascript.com/)
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/CognitiveBuild/WatsonSpeechPlugin/master/LICENSE)
 
 #Installation
