@@ -35,6 +35,9 @@
 // models
 #define WATSONSDK_DEFAULT_STT_MODEL @"en-US_BroadbandModel"
 
+#define WATSONSDK_STREAM_MARKER_DATA 1
+#define WATSONSDK_STREAM_MARKER_END 2
+
 @interface STTConfiguration : AuthConfiguration
 
 @property NSString *modelName;
