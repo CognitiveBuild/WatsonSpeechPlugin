@@ -28,25 +28,25 @@
 + (id)initWithConfig:(TTSConfiguration *)config;
 - (id)initWithConfig:(TTSConfiguration *)config;
 
-- (void)synthesize:(void (^)(NSData*, NSError*)) synthesizeHandler theText:(NSString*) text;
-- (void)synthesize:(void (^)(NSData*, NSError*)) synthesizeHandler theText:(NSString*) text customizationId:(NSString*) customizationId;
+- (void)synthesize:(DataHandlerWithError) synthesizeHandler theText:(NSString*) text;
+- (void)synthesize:(DataHandlerWithError) synthesizeHandler theText:(NSString*) text customizationId:(NSString*) customizationId;
 
-- (void)listVoices:(void (^)(NSDictionary*, NSError*))handler;
+- (void)listVoices:(JSONHandlerWithError)handler;
 - (void)saveAudio:(NSData*) audio toFile:(NSString*) path;
-- (void)playAudio:(void (^)(NSError*)) audioHandler  withData:(NSData *) audio;
-- (void) playAudio:(void (^)(NSError*)) audioHandler withData:(NSData *) audio sampleRate:(long) rate;
+- (void)playAudio:(void (^)(NSError*)) audioHandler withData:(NSData *) audio;
+- (void)playAudio:(void (^)(NSError*)) audioHandler withData:(NSData *) audio sampleRate:(long) rate;
 - (void)stopAudio;
 
-- (void)createVoiceModelWithCustomVoice: (TTSCustomVoice*) customVoice handler: (void (^)(NSDictionary*, NSError*)) customizationHandler;
-- (void)addWord:(NSString *)customizationId word:(TTSCustomWord *)customWord handler:(void (^)(NSDictionary *, NSError *))customizationHandler;
-- (void)addWords:(NSString *)customizationId voice:(TTSCustomVoice *)customVoice handler:(void (^)(NSDictionary *, NSError *))customizationHandler;
-- (void)deleteWord:(NSString *)customizationId word:(NSString *) wordString handler:(void (^)(NSDictionary *, NSError *))customizationHandler;
-- (void)listWords:(NSString *)customizationId handler:(void (^)(NSDictionary *, NSError *))customizationHandler;
-- (void)listWord:(NSString *)customizationId word:(NSString *) wordString handler:(void (^)(NSDictionary *, NSError *))customizationHandler;
-- (void)updateVoiceModelWithCustomVoice:(NSString *)customizationId voice:(TTSCustomVoice *)customVoice handler:(void (^)(NSDictionary *, NSError *))customizationHandler;
-- (void)deleteVoiceModel:(NSString *)customizationId handler:(void (^)(NSDictionary *, NSError *))customizationHandler;
-- (void)listCustomizedVoiceModels: (void (^)(NSDictionary*, NSError*)) handler;
+- (void)createVoiceModelWithCustomVoice: (TTSCustomVoice*) customVoice handler: (JSONHandlerWithError) customizationHandler;
+- (void)addWord:(NSString *)customizationId word:(TTSCustomWord *)customWord handler:(JSONHandlerWithError)customizationHandler;
+- (void)addWords:(NSString *)customizationId voice:(TTSCustomVoice *)customVoice handler:(JSONHandlerWithError)customizationHandler;
+- (void)deleteWord:(NSString *)customizationId word:(NSString *) wordString handler:(JSONHandlerWithError)customizationHandler;
+- (void)listWords:(NSString *)customizationId handler:(JSONHandlerWithError)customizationHandler;
+- (void)listWord:(NSString *)customizationId word:(NSString *) wordString handler:(JSONHandlerWithError)customizationHandler;
+- (void)updateVoiceModelWithCustomVoice:(NSString *)customizationId voice:(TTSCustomVoice *)customVoice handler:(JSONHandlerWithError)customizationHandler;
+- (void)deleteVoiceModel:(NSString *)customizationId handler:(JSONHandlerWithError)customizationHandler;
+- (void)listCustomizedVoiceModels: (JSONHandlerWithError) handler;
 
-- (void)queryPronunciation: (void (^)(NSDictionary*, NSError*)) handler text:(NSString*) theText;
-- (void)queryPronunciation: (void (^)(NSDictionary*, NSError*)) handler text:(NSString*) theText voice: (NSString*) theVoice format: (NSString*) theFormat;
+- (void)queryPronunciation: (JSONHandlerWithError) handler text:(NSString*) theText;
+- (void)queryPronunciation: (JSONHandlerWithError) handler text:(NSString*) theText parameters:(NSDictionary*) theParameters;
 @end

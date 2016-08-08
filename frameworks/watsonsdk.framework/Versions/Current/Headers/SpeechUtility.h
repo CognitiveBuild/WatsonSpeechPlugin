@@ -14,30 +14,153 @@
  * limitations under the License.
  **/
 
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import "AuthConfiguration.h"
-
-#define WATSON_WEBSOCKETS_ERROR_CODE 506
-
-#define HTTP_METHOD_GET @"GET"
-#define HTTP_METHOD_POST @"POST"
-#define HTTP_METHOD_PUT @"PUT"
-#define HTTP_METHOD_DELETE @"DELETE"
+#import "BaseConfiguration.h"
 
 @interface SpeechUtility : NSObject
-+ (NSError *)raiseErrorWithCode:(NSInteger)code;
-+ (NSString*)findUnexpectedErrorWithCode: (NSInteger)code;
-+ (NSError*)raiseErrorWithCode: (NSInteger)code message: (NSString*) errorMessage reason: (NSString*) reasonMessage suggestion:(NSString*) suggestionMessage;
-+ (NSError*)raiseErrorWithMessage:(NSString*) errorMessage;
 
-+ (void) processJSON: (void (^)(id, NSError*))handler
-                  config: (AuthConfiguration*) authConfig
+/**
+ *  find unexpected error by code
+ *
+ *  @param code HTTP / WebSocket status code
+ *
+ *  @return error message
+ */
++ (NSString*)findUnexpectedErrorWithCode: (NSInteger)code;
+
+/**
+ *  raise error with code
+ *
+ *  @param code error code
+ *
+ *  @return NSError
+ */
++ (NSError*)raiseErrorWithCode:(NSInteger)code;
+
+/**
+ *  raise error with message only
+ *
+ *  @param code         error code
+ *  @param errorMessage error message
+ *
+ *  @return NSError
+ */
++ (NSError*)raiseErrorWithCode: (NSInteger)code message: (NSString*) errorMessage;
+
+/**
+ *  raise error with code and messages
+ *
+ *  @param code              error code
+ *  @param errorMessage      error message
+ *  @param reasonMessage     reason message
+ *  @param suggestionMessage suggestion message
+ *
+ *  @return NSError
+ */
++ (NSError*)raiseErrorWithCode: (NSInteger)code message: (NSString*) errorMessage reason: (NSString*) reasonMessage suggestion:(NSString*) suggestionMessage;
+
+/**
+ *  process dictionary (JSON)
+ *
+ *  @param handler      JSON handler
+ *  @param authConfig   configuration
+ *  @param httpResponse HTTP response
+ *  @param responseData response data
+ *  @param requestError request error
+ */
++ (void)processJSON: (JSONHandlerWithError)handler
+                  config: (BaseConfiguration*) authConfig
                 response:(NSURLResponse*) httpResponse
                     data:(NSData*) responseData
                    error: (NSError*) requestError;
-+ (void) processData: (void (^)(id, NSError*))handler
-              config: (AuthConfiguration*) authConfig
+
+/**
+ *  process binary
+ *
+ *  @param handler      data handler
+ *  @param authConfig   configuration
+ *  @param httpResponse HTTP response
+ *  @param responseData response data
+ *  @param requestError request error
+ */
++ (void)processData: (DataHandlerWithError)handler
+              config: (BaseConfiguration*) authConfig
             response:(NSURLResponse*) httpResponse
                 data:(NSData*) responseData
                error: (NSError*) requestError;
+
+/**
+ *  perform get with cache
+ *
+ *  @param handler         JSON handler
+ *  @param url             request URL
+ *  @param authConfig      configuration
+ *  @param sessionDelegate URL session delegate
+ */
++ (void) performGet:(JSONHandlerWithError)handler forURL:(NSURL*)url
+             config: (BaseConfiguration*) authConfig
+           delegate: (id<NSURLSessionDelegate>) sessionDelegate;
+/**
+ *  perform get
+ *
+ *  @param handler         JSON handler
+ *  @param url             request URL
+ *  @param authConfig      configuration
+ *  @param sessionDelegate URL session delegate
+ *  @param withoutCache    disable cache
+ */
++ (void) performGet:(JSONHandlerWithError)handler forURL:(NSURL*)url
+             config: (BaseConfiguration*) authConfig
+           delegate: (id<NSURLSessionDelegate>) sessionDelegate
+       disableCache:(BOOL) withoutCache;
+
+/**
+ *  perform get with header
+ *
+ *  @param handler         data handler
+ *  @param url             request URL
+ *  @param authConfig      configuration
+ *  @param sessionDelegate session delegate
+ *  @param extraHeader     extra header
+ */
++ (void) performGet:(JSONHandlerWithError)handler
+             forURL:(NSURL*) url
+             config: (BaseConfiguration*) authConfig
+           delegate:(id<NSURLSessionDelegate>) sessionDelegate
+             header:(NSDictionary*) extraHeader;
+/**
+ *  perform get with cache settings
+ *
+ *  @param handler         data handler
+ *  @param url             request URL
+ *  @param authConfig      configuration
+ *  @param sessionDelegate session delegate
+ *  @param withoutCache    cache settings
+ *  @param extraHeader     extra header
+ */
++ (void) performGet:(JSONHandlerWithError)handler
+             forURL:(NSURL*)url
+             config:(BaseConfiguration*) authConfig
+           delegate:(id<NSURLSessionDelegate>) sessionDelegate
+       disableCache:(BOOL) withoutCache
+             header:(NSDictionary*) extraHeader;
+
+/**
+ *  iOS 6 compatibility
+ *
+ *  @param handler      data handler
+ *  @param url          request URL
+ *  @param withoutCache disable cache
+ *  @param config       configuration
+ */
++ (void)performGet:(void (^)(NSURLResponse* response, NSData* data, NSError* connectionError))handler
+            forURL:(NSURL*) url
+      disableCache:(BOOL) withoutCache
+     configuration: (BaseConfiguration *) config
+            header:(NSDictionary*) extraHeader;
+
++ (BOOL)isOS6;
+
++ (NSMutableData *)addWavHeader:(NSData *)wavNoheader rate:(long) sampleRate;
 @end

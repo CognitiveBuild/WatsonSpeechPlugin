@@ -15,22 +15,27 @@
  **/
 
 #import <Foundation/Foundation.h>
-#import "AuthConfiguration.h"
+#import "BaseConfiguration.h"
 
 // URLS
 #define WATSONSDK_DEFAULT_STT_API_ENDPOINT @"https://stream.watsonplatform.net/speech-to-text/api/"
 #define WATSONSDK_SERVICE_PATH_MODELS @"/v1/models"
-#define WATSONSDK_SERVICE_PATH_v1 @"/v1"
-#define WATSONSDK_SERVICE_PATH_RECOGNIZE @"/recognize"
-#define WEBSOCKETS_SCHEME @"wss://"
+#define WATSONSDK_SERVICE_PATH_RECOGNIZE @"/v1/recognize"
 
 // codecs
-#define WATSONSDK_AUDIO_CODEC_TYPE_PCM @"audio/l16;rate=16000"
+#define WATSONSDK_AUDIO_CODEC_TYPE_PCM @"audio/l16"
+#define WATSONSDK_AUDIO_FRAME_SIZE_PCM 160
+#define WATSONSDK_AUDIO_SAMPLE_RATE_PCM 16000.0
 //#define WATSONSDK_AUDIO_CODEC_TYPE_WAV @"audio/wav"
 //#define WATSONSDK_AUDIO_CODEC_TYPE_FLAC @"audio/flac"
+//#define WATSONSDK_AUDIO_CODEC_TYPE_BASIC @"audio/basic"
+
 #define WATSONSDK_AUDIO_CODEC_TYPE_OPUS @"audio/ogg;codecs=opus"
-#define WATSONSDK_AUDIO_FRAME_SIZE 160
-#define WATSONSDK_AUDIO_SAMPLE_RATE 16000.0
+#define WATSONSDK_AUDIO_FRAME_SIZE_OPUS 160
+#define WATSONSDK_AUDIO_SAMPLE_RATE_OPUS 16000.0
+
+// timeout
+#define WATSONSDK_INACTIVITY_TIMEOUT 30
 
 // models
 #define WATSONSDK_DEFAULT_STT_MODEL @"en-US_BroadbandModel"
@@ -38,10 +43,10 @@
 #define WATSONSDK_STREAM_MARKER_DATA 1
 #define WATSONSDK_STREAM_MARKER_END 2
 
-@interface STTConfiguration : AuthConfiguration
+@interface STTConfiguration : BaseConfiguration
 
-@property NSString *modelName;
-@property NSString *audioCodec;
+@property NSString *modelName; // "model" parameter defined from service
+@property NSString *audioCodec; // "Content-Type" parameter defined from service
 @property BOOL interimResults;
 @property BOOL continuous;
 @property NSNumber *inactivityTimeout;
@@ -49,16 +54,23 @@
 @property NSNumber *keywordsThreshold;
 @property NSNumber *maxAlternatives;
 @property NSNumber *wordAlternativesThreshold;
+@property BOOL wordConfidence;
+@property BOOL timestamps;
 @property NSArray *keywords;
 
-@property float audioSampleRate;
+@property BOOL profanityFilter;
+@property BOOL smartFormatting;
+
+@property int audioSampleRate;
 @property int audioFrameSize;
 
 - (id)init;
+
 - (NSURL*)getModelsServiceURL;
 - (NSURL*)getModelServiceURL:(NSString*) modelName;
 - (NSURL*)getWebSocketRecognizeURL;
-- (NSString *)getStartMessage;
-- (NSData *)getStopMessage;
+
+- (NSString*)getStartMessage;
+- (NSData*)getStopMessage;
 
 @end
