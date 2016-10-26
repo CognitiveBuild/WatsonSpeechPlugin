@@ -17,7 +17,9 @@
 #import <Foundation/Foundation.h>
 
 #define WATSON_DATAFORMAT_ERROR_CODE 700
+// Only used for the code returned from connection closure delegate
 #define WATSON_WEBSOCKETS_ERROR_CODE 701
+// http://www.ibm.com/watson/developercloud/doc/speech-to-text/websockets.shtml#WSreturn
 #define WATSON_SPEECHAPIS_ERROR_CODE 702
 #define WATSON_PERMISSION_ERROR_CODE 800
 #define WATSON_SDK_ERROR_DOMAIN @"Watons Speech SDK"

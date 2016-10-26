@@ -36,6 +36,7 @@
 
 // timeout
 #define WATSONSDK_INACTIVITY_TIMEOUT 30
+#define WATSONSDK_CONNECTION_TIMEOUT 30
 
 // models
 #define WATSONSDK_DEFAULT_STT_MODEL @"en-US_BroadbandModel"
