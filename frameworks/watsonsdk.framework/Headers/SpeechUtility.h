@@ -16,6 +16,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 #import "BaseConfiguration.h"
 
 @interface SpeechUtility : NSObject
@@ -163,4 +164,6 @@
 + (BOOL)isOS6;
 
 + (NSMutableData *)addWavHeader:(NSData *)wavNoheader rate:(long) sampleRate;
+
++ (void)setProximityMonitor:(BOOL)enable;
 @end
