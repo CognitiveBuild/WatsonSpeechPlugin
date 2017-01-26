@@ -15,9 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 /**
  * Created by mihui on 5/29/16.
  */
@@ -50,12 +47,7 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
             this.endTransmission();
             return true;
         }
-//        if(action.equals("listModels")){
-//            return true;
-//        }
-//        if(action.equals("setModel")){
-//            return true;
-//        }
+
         return false;
     }
 
@@ -92,7 +84,7 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
     public void onBegin() { }
 
     @Override
-    public void onError(int code, String error) {
+    public void onError(int statusCode, String error) {
         sendStatus("onError: " + error);
         this.recognizeContext.error("Data error");
     }
@@ -129,6 +121,7 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
                 if(alternativeList.length() > 0) {
                     String str = alternativeList.getJSONObject(0).getString("transcript");
                     boolean isFinal = obj.getString("final").equals("true");
+
                     JSONObject finalResult = new JSONObject();
                     finalResult.put("isfinal", isFinal ? "Yes" : "No");
                     finalResult.put("iscomplete", "No");

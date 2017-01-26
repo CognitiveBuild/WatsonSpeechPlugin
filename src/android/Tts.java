@@ -19,7 +19,7 @@ import org.json.JSONObject;
  */
 public class Tts extends CordovaPlugin implements ITextToSpeechDelegate {
 
-    public final String TAG = this.getClass().getSimpleName();
+    private final String TAG = this.getClass().getSimpleName();
 
     private CallbackContext synthesizeContext = null;
 
