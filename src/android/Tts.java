@@ -98,8 +98,7 @@ public class Tts extends CordovaPlugin implements ITextToSpeechDelegate {
         tConfig.appContext = this.cordova.getActivity().getApplicationContext();
         tConfig.voice = "en-US_AllisonVoice";
 
-        TextToSpeech.sharedInstance().initWithConfig(tConfig);
-        TextToSpeech.sharedInstance().setDelegate(this);
+        TextToSpeech.sharedInstance().initWithConfig(tConfig, this);
     }
 
     @Override

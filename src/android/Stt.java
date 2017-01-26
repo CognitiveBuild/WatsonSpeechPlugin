@@ -23,15 +23,9 @@ import java.net.URISyntaxException;
  */
 public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
 
-    public final String TAG = this.getClass().getSimpleName();
+    private final String TAG = this.getClass().getSimpleName();
 
     private CallbackContext recognizeContext = null;
-
-    private enum ConnectionState {
-        IDLE, CONNECTING, CONNECTED
-    }
-
-    ConnectionState mState = ConnectionState.IDLE;
 
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -44,7 +38,7 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
      * @param action          The action to execute.
      * @param args            The exec() arguments.
      * @param callbackContext The callback context used when calling back into JavaScript.
-     * @return
+     * @return boolean
      */
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext){
         if(action.equals("recognize")){
@@ -56,12 +50,12 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
             this.endTransmission();
             return true;
         }
-        if(action.equals("listModels")){
-            return true;
-        }
-        if(action.equals("setModel")){
-            return true;
-        }
+//        if(action.equals("listModels")){
+//            return true;
+//        }
+//        if(action.equals("setModel")){
+//            return true;
+//        }
         return false;
     }
 
@@ -80,29 +74,26 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
         sConfig.basicAuthUsername = "<your-username>";
         sConfig.basicAuthPassword = "<your-password>";
 
-        SpeechToText.sharedInstance().initWithConfig(sConfig);
-        SpeechToText.sharedInstance().setDelegate(this);
+        SpeechToText.sharedInstance().initWithConfig(sConfig, this);
 
         return true;
     }
 
-    public void sendStatus(final String status) {
+    private void sendStatus(final String status) {
         Log.d(TAG, "### Status: "+status);
     }
 
     @Override
     public void onOpen() {
         sendStatus("onOpen: successfully connected to the STT service");
-        this.mState = ConnectionState.CONNECTED;
     }
 
     @Override
     public void onBegin() { }
 
     @Override
-    public void onError(String error) {
+    public void onError(int code, String error) {
         sendStatus("onError: " + error);
-        this.mState = ConnectionState.IDLE;
         this.recognizeContext.error("Data error");
     }
 
@@ -110,7 +101,6 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
     public void onClose(int code, String reason, boolean remote) {
         try {
             sendStatus("onClose: connection closed: code: " + code + " reason: " + reason);
-            this.mState = ConnectionState.IDLE;
             JSONObject finalResult = new JSONObject();
 
             finalResult.put("iscompleted", "Yes");
@@ -139,9 +129,6 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
                 if(alternativeList.length() > 0) {
                     String str = alternativeList.getJSONObject(0).getString("transcript");
                     boolean isFinal = obj.getString("final").equals("true");
-                    if (isFinal) {
-                        // SpeechToText.sharedInstance().endRecognition();
-                    }
                     JSONObject finalResult = new JSONObject();
                     finalResult.put("isfinal", isFinal ? "Yes" : "No");
                     finalResult.put("iscomplete", "No");
@@ -163,6 +150,11 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
 
     @Override
     public void onAmplitude(double v, double v1) {
+
+    }
+
+    @Override
+    public void onData(byte[] bytes) {
 
     }
 }
