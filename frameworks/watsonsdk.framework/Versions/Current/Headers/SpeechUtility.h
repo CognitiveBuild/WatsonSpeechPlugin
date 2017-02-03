@@ -22,7 +22,7 @@
 @interface SpeechUtility : NSObject
 
 /**
- *  find unexpected error by code
+ *  Find unexpected error by code
  *
  *  @param code HTTP / WebSocket status code
  *
@@ -31,7 +31,7 @@
 + (NSString*)findUnexpectedErrorWithCode: (NSInteger)code;
 
 /**
- *  raise error with code
+ *  Raise error with code
  *
  *  @param code error code
  *
@@ -40,7 +40,7 @@
 + (NSError*)raiseErrorWithCode:(NSInteger)code;
 
 /**
- *  raise error with message only
+ *  Raise error with message only
  *
  *  @param code         error code
  *  @param errorMessage error message
@@ -50,7 +50,7 @@
 + (NSError*)raiseErrorWithCode: (NSInteger)code message: (NSString*) errorMessage;
 
 /**
- *  raise error with code and messages
+ *  Raise error with code and messages
  *
  *  @param code              error code
  *  @param errorMessage      error message
@@ -62,7 +62,7 @@
 + (NSError*)raiseErrorWithCode: (NSInteger)code message: (NSString*) errorMessage reason: (NSString*) reasonMessage suggestion:(NSString*) suggestionMessage;
 
 /**
- *  process dictionary (JSON)
+ *  Process dictionary (JSON)
  *
  *  @param handler      JSON handler
  *  @param authConfig   configuration
@@ -71,13 +71,12 @@
  *  @param requestError request error
  */
 + (void)processJSON: (JSONHandlerWithError)handler
-                  config: (BaseConfiguration*) authConfig
                 response:(NSURLResponse*) httpResponse
                     data:(NSData*) responseData
                    error: (NSError*) requestError;
 
 /**
- *  process binary
+ *  Process binary
  *
  *  @param handler      data handler
  *  @param authConfig   configuration
@@ -92,7 +91,7 @@
                error: (NSError*) requestError;
 
 /**
- *  perform get with cache
+ *  Peform GET with cache
  *
  *  @param handler         JSON handler
  *  @param url             request URL
@@ -103,7 +102,7 @@
              config: (BaseConfiguration*) authConfig
            delegate: (id<NSURLSessionDelegate>) sessionDelegate;
 /**
- *  perform get
+ *  Peform GET
  *
  *  @param handler         JSON handler
  *  @param url             request URL
@@ -117,7 +116,7 @@
        disableCache:(BOOL) withoutCache;
 
 /**
- *  perform get with header
+ *  Peform GET with header
  *
  *  @param handler         data handler
  *  @param url             request URL
@@ -131,7 +130,7 @@
            delegate:(id<NSURLSessionDelegate>) sessionDelegate
              header:(NSDictionary*) extraHeader;
 /**
- *  perform get with cache settings
+ *  Peform GET with cache settings
  *
  *  @param handler         data handler
  *  @param url             request URL
@@ -147,23 +146,36 @@
        disableCache:(BOOL) withoutCache
              header:(NSDictionary*) extraHeader;
 
+
 /**
- *  iOS 6 compatibility
+ *  Basic GET
  *
- *  @param handler      data handler
- *  @param url          request URL
- *  @param withoutCache disable cache
- *  @param config       configuration
+ *  @param handler          data handler
+ *  @param url              request URL
+ *  @param sessionDelegate  session delegate
+ *  @param withoutCache     disable cache
+ *  @param extraHeader      extra header
  */
-+ (void)performGet:(void (^)(NSURLResponse* response, NSData* data, NSError* connectionError))handler
-            forURL:(NSURL*) url
-      disableCache:(BOOL) withoutCache
-     configuration: (BaseConfiguration *) config
-            header:(NSDictionary*) extraHeader;
++ (void) performGet:(void(^)(NSData *data, NSURLResponse *response, NSError *error))handler
+             forURL:(NSURL*)url
+           delegate: (id<NSURLSessionDelegate>) sessionDelegate
+       disableCache:(BOOL) withoutCache
+             header:(NSDictionary *)extraHeader;
 
-+ (BOOL)isOS6;
+/**
+ Add Wav header
 
+ @param wavNoheader Wav data without header
+ @param sampleRate Sample rate
+ @return Wav audio data with header
+ */
 + (NSMutableData *)addWavHeader:(NSData *)wavNoheader rate:(long) sampleRate;
 
+
+/**
+ For detecting activity of proximity
+
+ @param enable true as `Enable`, false otherwise
+ */
 + (void)setProximityMonitor:(BOOL)enable;
 @end

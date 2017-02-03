@@ -18,6 +18,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 #import "STTConfiguration.h"
+#import "SpeechUtility.h"
 
 @interface SpeechToTextResult : NSObject
 
