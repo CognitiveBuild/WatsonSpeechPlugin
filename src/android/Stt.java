@@ -40,14 +40,24 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext){
         if(action.equals("recognize")){
             this.recognizeContext = callbackContext;
-            this.recognize();
+            this.cordova.getThreadPool().execute(new Runnable() {
+                @Override
+                public void run() {
+                    recognize();
+                }
+            });
+
             return true;
         }
         if(action.equals("endTransmission")){
-            this.endTransmission();
+            this.cordova.getThreadPool().execute(new Runnable() {
+                @Override
+                public void run() {
+                    endTransmission();
+                }
+            });
             return true;
         }
-
         return false;
     }
 
@@ -61,7 +71,7 @@ public class Stt extends CordovaPlugin implements ISpeechToTextDelegate{
 
     // initialize the connection to the Watson STT service
     private boolean initSTT() {
-        STTConfiguration sConfig = new STTConfiguration(STTConfiguration.AUDIO_FORMAT_OGGOPUS, STTConfiguration.SAMPLE_RATE_DEFAULT);
+        STTConfiguration sConfig = new STTConfiguration(STTConfiguration.AUDIO_FORMAT_OGGOPUS, STTConfiguration.SAMPLE_RATE_OGGOPUS);
         // DISCLAIMER: please enter your credentials or token factory in the lines below
         sConfig.basicAuthUsername = "<your-username>";
         sConfig.basicAuthPassword = "<your-password>";
