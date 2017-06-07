@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2015
+ * Copyright IBM Corporation 2017
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@
 @property NSString *modelName; // "model" parameter defined from service
 @property NSString *audioCodec; // "Content-Type" parameter defined from service
 @property BOOL interimResults;
-@property BOOL continuous;
+@property BOOL speakerLabels;
 @property NSNumber *inactivityTimeout;
 @property NSNumber *connectionTimeout;
 @property NSNumber *keywordsThreshold;
