@@ -5,7 +5,7 @@
     "id": "WatsonSpeechPlugin",
     "platforms": [
       "android",
-      "ios",
+      "ios"
     ]
   },
   "description": "Watson Speech Cordova Plugin",
