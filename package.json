@@ -1,5 +1,5 @@
 {
-  "name": "Watson Speech Plugin",
+  "name": "WatsonSpeechPlugin",
   "version": "1.0.0",
   "cordova": {
     "id": "WatsonSpeechPlugin",
