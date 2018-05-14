@@ -3,7 +3,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     id="WatsonSpeechPlugin"
     version="1.0.0">
-    <name>Watson Speech Plugin</name>
+    <name>WatsonSpeechPlugin</name>
     <description>Watson Speech Cordova Plugin</description>
     <license>Apache 2.0</license>
     <keywords>Watson, Speech, STT, TTS</keywords>
@@ -45,7 +45,7 @@
 
     <!-- ios -->
     <platform name="ios">
-        <framework src="frameworks/watsonsdk.framework" custom="true" type="projectReference" />
+        <framework src="frameworks/watsonsdk.framework" custom="true" />
         <framework src="libicucore.tbd" />
         <framework src="AudioToolbox.framework" />
         <framework src="AVFoundation.framework" />
@@ -55,7 +55,7 @@
         <framework src="Quartzcore.framework" />
         <framework src="Security.framework" />
 
-        <resource-file src="frameworks/watsonsdk.framework" target="frameworks/watsonsdk.framework" framework="true" />
+        <!-- <resource-file src="frameworks/watsonsdk.framework" target="frameworks/watsonsdk.framework" /> -->
         <resource-file src="resources/Credentials.plist" target="Resources/Credentials.plist" />
 
         <config-file target="config.xml" parent="/*">
