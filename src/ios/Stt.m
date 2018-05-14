@@ -35,7 +35,7 @@ NSString *recognitionCallbackId = nil;
         [sttConfigurations setApiURL:@"https://stream.watsonplatform.net/speech-to-text/api"];
         [sttConfigurations setAudioCodec:WATSONSDK_AUDIO_CODEC_TYPE_OPUS];
         [sttConfigurations setModelName:WATSONSDK_DEFAULT_STT_MODEL];
-        [sttConfigurations setContinuous:NO];
+        [sttConfigurations setInterimResults:YES];
     }
     return sttConfigurations;
 }
@@ -78,11 +78,13 @@ NSString *recognitionCallbackId = nil;
     recognitionCallbackId = [command callbackId];
     [[self sttInstance] recognize:^(NSDictionary* res, NSError* err){
         if(err) {
+
             [[self sttInstance] endRecognize];
             CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[err localizedDescription]];
             [[self commandDelegate] sendPluginResult:result callbackId:recognitionCallbackId];
             return;
         }
+
         [self.commandDelegate runInBackground:^{
             [self send:res];
         }];
